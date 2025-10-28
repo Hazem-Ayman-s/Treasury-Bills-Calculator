@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة عائد أذون الخزانة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="toast" class="toast">✓ <span data-ar="تم النسخ بنجاح!" data-en="Copied successfully!">تم النسخ
+            بنجاح!</span></div>
+
+    <div class="container">
+        <div class="header">
+            <button class="lang-toggle" onclick="toggleLanguage()">
+                <span data-ar="English" data-en="العربية">English</span>
+            </button>
+            <h1 data-ar="حاسبة عائد أذون الخزانة" data-en="Treasury Bills Calculator">حاسبة عائد أذون الخزانة</h1>
+            <p data-ar="احسب عائد أذون الخزانة أو نسبة العائد السنوي بدقة وسهولة"
+                data-en="Calculate treasury bills return or annual yield accurately and easily">احسب عائد أذون الخزانة
+                أو نسبة العائد السنوي بدقة وسهولة</p>
+        </div>
+
+        <div class="left-column">
+            <div class="ad-placeholder ad-horizontal">
+                <span data-ar="مساحة إعلانية 728x90" data-en="Ad Space 728x90">مساحة إعلانية 728x90</span>
+            </div>
+
+            <div class="card guide">
+                <div class="guide-header" onclick="toggleGuide()">
+                    <h3>
+                        <span data-ar="📖 دليل الاستخدام" data-en="📖 User Guide">📖 دليل الاستخدام</span>
+                    </h3>
+                    <span class="guide-arrow" id="guide-arrow">▼</span>
+                </div>
+                <div class="guide-content" id="guide-content">
+                    <div class="guide-inner">
+                        <p><strong data-ar="كيفية استخدام الحاسبة:" data-en="How to use the calculator:">كيفية استخدام
+                                الحاسبة:</strong></p>
+                        <ul>
+                            <li data-ar="اختر ما تريد حسابه: العائد بالمبلغ أو نسبة العائد السنوي"
+                                data-en="Choose what you want to calculate: Return amount or annual yield">اختر ما تريد
+                                حسابه: العائد بالمبلغ أو نسبة العائد السنوي</li>
+                            <li data-ar="أدخل البيانات المطلوبة (المبلغ الكلي، مدة التشغيل، ونسبة العائد أو المبلغ)"
+                                data-en="Enter required data (total amount, duration, yield rate or amount)">أدخل
+                                البيانات المطلوبة (المبلغ الكلي، مدة التشغيل، ونسبة العائد أو المبلغ)</li>
+                            <li data-ar="يمكنك إضافة نسبة الضريبة (اختياري) لحساب العائد الصافي"
+                                data-en="You can add tax rate (optional) to calculate net return">يمكنك إضافة نسبة
+                                الضريبة (اختياري) لحساب العائد الصافي</li>
+                            <li data-ar="اضغط على احسب لعرض النتيجة" data-en="Click Calculate to display the result">
+                                اضغط على "احسب" لعرض النتيجة</li>
+                        </ul>
+
+                        <div class="example-box">
+                            <strong>مثال توضيحي:</strong>
+                            <span>لحساب العائد: أدخل المبلغ الكلي = 100,000 جنيه، النسبة = 27%، مدة التشغيل = 91 يوم</span><br>
+                            <span>النتيجة: المبلغ المستخدم = 93,415 جنيه، العائد = 6,585 جنيه</span><br><br>
+                            <span>إذا أضفت ضريبة 20%:</span><br>
+                            <span>الضريبة = 1,317 جنيه، العائد بعد الضريبة = 5,268 جنيه، المبلغ المسترد = 98,683 جنيه</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-column">
+                <div class="ad-placeholder ad-horizontal">
+                    <span data-ar="مساحة إعلانية 728x90" data-en="Ad Space 728x90">مساحة إعلانية 728x90</span>
+                </div>
+
+                <div class="card">
+                    <div class="section-title" data-ar="اختر القيمة المراد حسابها" data-en="Choose what to calculate">
+                        اختر القيمة المراد حسابها</div>
+
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="calc-return" name="calculate" value="return" checked>
+                            <label for="calc-return" data-ar="العائد بالمبلغ" data-en="Return Amount">العائد
+                                بالمبلغ</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="calc-percentage" name="calculate" value="percentage">
+                            <label for="calc-percentage" data-ar="نسبة العائد السنوي" data-en="Annual Yield Rate">نسبة
+                                العائد السنوي</label>
+                        </div>
+                    </div>
+
+                    <div class="section-title" data-ar="أدخل القيم" data-en="Enter Values">أدخل القيم</div>
+
+                    <div id="input-total" class="input-group">
+                        <label for="total" data-ar="المبلغ الكلي" data-en="Total Amount">المبلغ الكلي</label>
+                        <div class="input-wrapper">
+                            <input type="text" inputmode="decimal" id="total" placeholder="">
+                            <span class="input-unit" data-ar="جنيه" data-en="EGP">جنيه</span>
+                        </div>
+                        <div class="error-message" data-ar="الرجاء إدخال قيمة موجبة"
+                            data-en="Please enter a positive value">الرجاء إدخال قيمة موجبة</div>
+                    </div>
+
+                    <div id="input-duration" class="input-group">
+                        <label for="duration" data-ar="مدة التشغيل" data-en="Duration">مدة التشغيل</label>
+                        <div class="input-wrapper">
+                            <select id="duration">
+                                <option value="" data-ar="اختر المدة" data-en="Select duration">اختر المدة</option>
+                                <option value="91" data-ar="91 يوم (ربع سنوي)" data-en="91 days (Quarterly)">91 يوم (ربع
+                                    سنوي)</option>
+                                <option value="182" data-ar="182 يوم (نصف سنوي)" data-en="182 days (Semi-annual)">182
+                                    يوم (نصف سنوي)</option>
+                                <option value="273" data-ar="273 يوم (9 أشهر)" data-en="273 days (9 months)">273 يوم (9
+                                    أشهر)</option>
+                                <option value="364" data-ar="364 يوم (سنوي)" data-en="364 days (Annual)">364 يوم (سنوي)
+                                </option>
+                            </select>
+                        </div>
+                        <div class="error-message" data-ar="الرجاء اختيار المدة" data-en="Please select duration">الرجاء
+                            اختيار المدة</div>
+                    </div>
+
+                    <div id="input-percentage" class="input-group">
+                        <label for="percentage" data-ar="نسبة العائد السنوي" data-en="Annual Yield Rate">نسبة العائد
+                            السنوي</label>
+                        <div class="input-wrapper">
+                            <input type="text" inputmode="decimal" id="percentage" placeholder="">
+                            <span class="input-unit">%</span>
+                        </div>
+                        <div class="error-message" data-ar="الرجاء إدخال قيمة موجبة"
+                            data-en="Please enter a positive value">الرجاء إدخال قيمة موجبة</div>
+                    </div>
+
+                    <div id="input-return" class="input-group hidden">
+                        <label for="return" data-ar="العائد بالمبلغ" data-en="Return Amount">العائد بالمبلغ</label>
+                        <div class="input-wrapper">
+                            <input type="text" inputmode="decimal" id="return" placeholder="">
+                            <span class="input-unit" data-ar="جنيه" data-en="EGP">جنيه</span>
+                        </div>
+                        <div class="error-message" data-ar="الرجاء إدخال قيمة موجبة"
+                            data-en="Please enter a positive value">الرجاء إدخال قيمة موجبة</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="tax" data-ar="نسبة الضريبة" data-en="Tax Rate">نسبة الضريبة
+                            </label>
+                        <div class="input-wrapper">
+                            <input type="text" inputmode="decimal" id="tax" placeholder="" min="0" max="100">
+                            <span class="input-unit">%</span>
+                        </div>
+                        <div class="error-message" data-ar="الرجاء إدخال نسبة بين 0 و 100"
+                            data-en="Please enter a rate between 0 and 100">الرجاء إدخال نسبة بين 0 و 100</div>
+                    </div>
+
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="calculate()" data-ar="احسب"
+                            data-en="Calculate">احسب</button>
+                        <button class="btn btn-secondary" onclick="reset()" data-ar="إعادة ضبط" data-en="Reset">إعادة
+                            ضبط</button>
+                    </div>
+                </div>
+
+                <div class="ad-placeholder ad-horizontal">
+                    <span data-ar="مساحة إعلانية 728x90" data-en="Ad Space 728x90">مساحة إعلانية 728x90</span>
+                </div>
+
+                <div class="card result-section" id="result-section">
+                    <div class="section-title" data-ar="النتيجة" data-en="Result">النتيجة</div>
+
+                    <div class="result-grid" id="result-grid"></div>
+                </div>
+            </div>
+
+            <div class="ad-placeholder ad-vertical">
+                <span data-ar="مساحة إعلانية 160x600" data-en="Ad Space 160x600">مساحة إعلانية 160x600</span>
+            </div>
+        </div>
+
+        <div class="card guide" style="margin: 20px 0; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <div class="guide-header" onclick="togglePrivacy()" style="padding: 15px 20px;">
+                <h3 style="font-size: 18px;">
+                    <span data-ar="🔒 سياسة الخصوصية" data-en="🔒 Privacy Policy">🔒 سياسة الخصوصية</span>
+                </h3>
+                <span class="guide-arrow" id="privacy-arrow">▼</span>
+            </div>
+            <div class="guide-content" id="privacy-content">
+                <div class="guide-inner" style="padding: 20px;">
+                    <div class="privacy-ar" style="display: block;">
+                        <h4 style="color: var(--gold-light); margin-bottom: 15px;">التزامنا بخصوصيتك</h4>
+                        <p style="margin-bottom: 12px;">نحن في حاسبة عائد أذون الخزانة نحترم خصوصيتك ونلتزم
+                            بحمايتها. هذه السياسة توضح كيفية تعاملنا مع بياناتك:</p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">1. البيانات المحلية فقط</h4>
+                        <p style="margin-bottom: 12px;">• جميع الحسابات تتم محلياً في متصفحك</p>
+                        <p style="margin-bottom: 12px;">• لا نقوم بجمع أو تخزين أي بيانات شخصية</p>
+                        <p style="margin-bottom: 12px;">• لا نرسل أي معلومات إلى خوادمنا أو أي جهة خارجية</p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">2. استخدام التطبيق</h4>
+                        <p style="margin-bottom: 12px;">• الأرقام التي تدخلها تبقى في جهازك فقط</p>
+                        <p style="margin-bottom: 12px;">• يمكنك استخدام الحاسبة بدون اتصال بالإنترنت بعد تحميلها</p>
+                        <p style="margin-bottom: 12px;">• نستخدم localStorage فقط لحفظ اختيار اللغة (عربي/إنجليزي)
+                        </p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">3. الإعلانات</h4>
+                        <p style="margin-bottom: 12px;">• قد نعرض إعلانات من طرف ثالث</p>
+                        <p style="margin-bottom: 12px;">• مزودو الإعلانات قد يستخدمون ملفات تعريف الارتباط (Cookies)
+                        </p>
+                        <p style="margin-bottom: 12px;">• نحن غير مسؤولين عن سياسات خصوصية المعلنين</p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">4. الأمان</h4>
+                        <p style="margin-bottom: 12px;">• لا توجد قواعد بيانات أو خوادم تخزن معلوماتك</p>
+                        <p style="margin-bottom: 12px;">• جميع العمليات الحسابية آمنة ومحلية 100%</p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">5. التحديثات</h4>
+                        <p style="margin-bottom: 12px;">• قد نقوم بتحديث سياسة الخصوصية من وقت لآخر</p>
+                        <p style="margin-bottom: 12px;">• ننصحك بمراجعة هذه الصفحة بشكل دوري</p>
+
+                        <p style="margin-top: 20px; color: var(--text-secondary); font-size: 14px;">آخر تحديث:
+                            أكتوبر 2025</p>
+                    </div>
+
+                    <div class="privacy-en" style="display: none;">
+                        <h4 style="color: var(--gold-light); margin-bottom: 15px;">Our Commitment to Your Privacy
+                        </h4>
+                        <p style="margin-bottom: 12px;">At Treasury Bills Calculator, we respect your privacy and
+                            are committed to protecting it. This policy explains how we handle your data:</p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">1. Local Data Only</h4>
+                        <p style="margin-bottom: 12px;">• All calculations are performed locally in your browser</p>
+                        <p style="margin-bottom: 12px;">• We do not collect or store any personal data</p>
+                        <p style="margin-bottom: 12px;">• We do not send any information to our servers or third
+                            parties</p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">2. Application Usage</h4>
+                        <p style="margin-bottom: 12px;">• Numbers you enter remain on your device only</p>
+                        <p style="margin-bottom: 12px;">• You can use the calculator offline after loading it</p>
+                        <p style="margin-bottom: 12px;">• We only use localStorage to save language preference
+                            (Arabic/English)</p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">3. Advertisements</h4>
+                        <p style="margin-bottom: 12px;">• We may display third-party advertisements</p>
+                        <p style="margin-bottom: 12px;">• Ad providers may use cookies</p>
+                        <p style="margin-bottom: 12px;">• We are not responsible for advertisers' privacy policies
+                        </p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">4. Security</h4>
+                        <p style="margin-bottom: 12px;">• No databases or servers store your information</p>
+                        <p style="margin-bottom: 12px;">• All calculations are 100% secure and local</p>
+
+                        <h4 style="color: var(--gold-light); margin: 20px 0 10px;">5. Updates</h4>
+                        <p style="margin-bottom: 12px;">• We may update this privacy policy from time to time</p>
+                        <p style="margin-bottom: 12px;">• We recommend reviewing this page periodically</p>
+
+                        <p style="margin-top: 20px; color: var(--text-secondary); font-size: 14px;">Last updated:
+                            October 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p data-ar="حاسبة عائد أذون الخزانة — دقيقة وسريعة وآمنة"
+                data-en="Treasury Bills Calculator — Accurate, Fast and Secure">حاسبة عائد أذون الخزانة — دقيقة وسريعة
+                وآمنة</p>
+
+
+            <p class="developer">Developed by <a href="https://www.linkedin.com/in/hazemayman-s" target="_blank" rel="noopener noreferrer">Hazem Ayman</a></p>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
